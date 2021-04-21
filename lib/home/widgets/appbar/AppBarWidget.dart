@@ -12,7 +12,7 @@ class AppBarWidget extends PreferredSize {
               child: Stack(
                 children: [
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     height: 160,
                     width: double.maxFinite,
                     decoration: BoxDecoration(gradient: AppGradients.linear),
