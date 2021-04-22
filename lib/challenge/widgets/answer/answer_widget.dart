@@ -66,7 +66,7 @@ class AnswerWidget extends StatelessWidget {
             width: 24,
             height: 24,
             child: isSelected ? Icon(
-              isSelected ? _selectedIconRight,
+               _selectedIconRight,
               size: 16,
               color: AppColors.white,
             ) : null,
