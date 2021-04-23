@@ -1,5 +1,7 @@
+import 'package:dev_quiz/challenge/challenge_page.dart';
 import 'package:dev_quiz/core/app_colors.dart';
 import 'package:dev_quiz/home/home_controller.dart';
+import 'package:dev_quiz/home/home_repository.dart';
 import 'package:dev_quiz/home/home_state.dart';
 import 'package:dev_quiz/home/widgets/appbar/AppBarWidget.dart';
 import 'package:dev_quiz/home/widgets/level_button/level_button_widget.dart';
@@ -14,7 +16,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final controller = HomeController();
+  final controller = HomeController(
+    repository: HomeRepository(),
+  );
 
   @override
   void initState() {
@@ -52,14 +56,27 @@ class _HomePageState extends State<HomePage> {
                   ),
                   Expanded(
                     child: GridView.count(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 8,
-                        mainAxisSpacing: 8,
-                        children: controller.quizzes!
-                            .map((quiz) => QuizCardWidget(
-                                  quiz: quiz,
-                                ))
-                            .toList()),
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 8,
+                      mainAxisSpacing: 8,
+                      children: controller.quizzes!
+                          .map(
+                            (quiz) => QuizCardWidget(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ChallengePage(
+                                      questions: quiz.questions,
+                                    ),
+                                  ),
+                                );
+                              },
+                              quiz: quiz,
+                            ),
+                          )
+                          .toList(),
+                    ),
                   )
                 ],
               ),
@@ -69,8 +86,9 @@ class _HomePageState extends State<HomePage> {
             body: Center(
               child: CircularProgressIndicator(
                 backgroundColor: AppColors.chartSecondary,
-                valueColor:
-                    AlwaysStoppedAnimation<Color>(AppColors.chartPrimary),
+                valueColor: AlwaysStoppedAnimation<Color>(
+                  AppColors.chartPrimary,
+                ),
               ),
             ),
           );

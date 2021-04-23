@@ -11,25 +11,53 @@ class UserModel {
     this.score = 0,
   });
 
-  factory UserModel.fromMap(Map<String, dynamic> map) {
-    return new UserModel(
-      name: map['name'] as String,
-      photoUrl: map['photoUrl'] as String,
-      score: map['score'] as int,
+  UserModel copyWith({
+    String? name,
+    String? photoUrl,
+    int? score,
+  }) {
+    return UserModel(
+      name: name ?? this.name,
+      photoUrl: photoUrl ?? this.photoUrl,
+      score: score ?? this.score,
     );
   }
 
   Map<String, dynamic> toMap() {
-    // ignore: unnecessary_cast
     return {
-      'name': this.name,
-      'photoUrl': this.photoUrl,
-      'score': this.score,
-    } as Map<String, dynamic>;
+      'name': name,
+      'photoUrl': photoUrl,
+      'score': score,
+    };
+  }
+
+  factory UserModel.fromMap(Map<String, dynamic> map) {
+    return UserModel(
+      name: map['name'],
+      photoUrl: map['photoUrl'],
+      score: map['score'],
+    );
   }
 
   String toJson() => json.encode(toMap());
 
   factory UserModel.fromJson(String source) =>
       UserModel.fromMap(json.decode(source));
+
+  @override
+  String toString() =>
+      'UserModel(name: $name, photoUrl: $photoUrl, score: $score)';
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is UserModel &&
+        other.name == name &&
+        other.photoUrl == photoUrl &&
+        other.score == score;
+  }
+
+  @override
+  int get hashCode => name.hashCode ^ photoUrl.hashCode ^ score.hashCode;
 }
